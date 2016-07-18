@@ -1,0 +1,152 @@
+<div class="bs-example" data-example-id="thumbnails-with-custom-content">
+  <div class="row" id="userList">
+    <div class="col-sm-12 col-md-12 col-lg-12 column table-responsive">
+      <h3>Online Users (<%= Object.keys(users.online).length %>)</h3>
+      <table class="table table-striped table-hover ">
+
+        <thead>
+          <tr>
+            <th>User Id</th>
+            <th>Status</th>
+            <th>Timestamp</th>
+            <th>Location</th>
+            <th>Request Help</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <%  
+            var luser = user;  
+            for(var i=0;i<disOnlineSortedKeys.length;i++) {
+            var user = disOnlineSortedKeys[i];
+            console.log("status"+users.online[user]['status']);        
+          %>
+          <tr class="<%= statusClass[users.online[user]['status']] %>" >
+            <td class="col-sm-3"><%= user%></td>
+            <td><i class="fa fa-<%= iconClass[users.online[user]['status']]%> fa-fw" ></i><%= status[users.online[user]['status']] %></td>
+            <!-- <% var time_id = users.online[user]['time_id']==null ? "" : users.online[user]['time_id']; console.log("time_id"+time_id);
+               var location = users.online[user]['location']==null ? "" : users.online[user]['location']; %> -->
+            <td><i class="fa fa-clock-o fa-fw" ></i><%= users.online[user]['time_id'] %> %></td>
+            <td><i class="fa fa-location-arrow fa-fw" ></i><%= disOnline[user] %> 
+              <%if(user != luser){%> meters <% } %></td>
+            <td> 
+              <%if(user != luser && users.online[user]['status'] ==1){%> <i class="fa fa-heartbeat reqHelp"></i> <% } %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  
+    <div class="col-sm-12 col-md-12 col-lg-12 column table-responsive" style="opacity:0.5;">
+      <h3>Offline Users (<%= Object.keys(users.offline).length %>)</h3>
+      <table class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>User Id</th>
+            <th>Status</th>
+            <th>Timestamp</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <%      
+            for(var i=0;i<disOfflineSortedKeys.length;i++) {
+            var user = disOfflineSortedKeys[i];
+          %>
+          <tr class="<%= statusClass[users.offline[user]['status']] %>" >
+            <td class="col-sm-3"><%= user %></td>
+            <td><i class="fa fa-<%= iconClass[users.offline[user]['status']]%> fa-fw" ></i><%= status[users.offline[user]['status']] %></td>
+            <!-- <% var time_id = users.offline[user]['time_id']==null ? "" : users.offline[user]['time_id'];
+               var location = users.offline[user]['location']==null ? "" : users.offline[user]['location']; %> -->
+            <td><i class="fa fa-clock-o fa-fw" ></i><%= users.offline[user]['time_id'] %></td>
+            <td><i class="fa fa-location-arrow fa-fw" ></i><%= disOffline[user] %> meters</td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class=" col-sm-12 col-md-12 js-map map"></div>
+  </div>
+</div>
+
+<script src="/js/d3.v3.min.js"></script>
+<link rel="stylesheet" href="/css/users.css">
+
+<script charset="utf-8">
+  console.log("HEre");
+  var el = d3.select('.js-map'),
+      // 150 DPI image
+      width = ($(".map").width() > (1743 / 2))? (1743 / 2):$(".map").width() ,
+      // 150 DPI image
+      height = 1415 / 2,
+      // Exported bounds of raster image
+      rasterBounds = [[-122.0635,37.4081], [-122.0545,37.4139]]
+  var projection = d3.geo.mercator()
+      .scale(1)
+      .translate([0, 0]);
+  var path = d3.geo.path()
+      .projection(projection);
+  var map = el.append('svg')
+      .attr('width', width)
+      .attr('height', height);
+  map.append('image')
+      .attr('xlink:href', '/images/Rastor.png')
+      .attr('width', width)
+      .attr('height', height);
+  var b = [projection(rasterBounds[0]), projection(rasterBounds[1])],
+      s = 1 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+      t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+  projection
+    .scale(s)
+    .translate(t);
+  var onlinecoordinates = [];
+  <% for(var user in users.online) {
+     var dis = "("+disOnline[user]+"m)";
+     if(user == luser){ dis='';} %>
+  onlinecoordinates.push({"label": "<%= user %> <%= dis %>","coordinates":[<%= users.online[user]['long']%> , <%=users.online[user]['lat']%>],"color":"<%=statusMapClass[users.online[user]['status']]%>" });
+  <%}%>
+    var offlinecoordinates = [];
+  <% for(var user in users.offline) {%>
+  offlinecoordinates.push({"label": "<%= user %> (<%= disOffline[user] %>m)","coordinates":[<%= users.offline[user]['long']%> , <%=users.offline[user]['lat']%>],"color":"<%=statusMapClass[users.offline[user]['status']]%>" });
+  <%}%>
+
+  var text = map.selectAll("text")
+                    .data(onlinecoordinates)
+                    .enter()
+                    .append("text");
+
+  //Add SVG Text Element Attributes
+  var textLabels = text
+                    .attr("x", function(d) { return projection(d.coordinates)[0]; })
+                    .attr("y", function(d) { return projection(d.coordinates)[1];})
+                    .text( function (d) { return '\uf21d'+"   "+ d.label; })
+                    .attr("font-family", "FontAwesome")
+                    .attr("font-size", "12px")
+                    .attr("fill", function (d) { return d.color; });
+
+  var textOffline = map.selectAll("textOffline")
+                    .data(offlinecoordinates)
+                    .enter()
+                    .append("text");
+
+  //Add SVG Text Element Attributes
+  var textLabelsOffline = textOffline
+                   .attr("x", function(d) { return projection(d.coordinates)[0]; })
+                   .attr("y", function(d) { return projection(d.coordinates)[1];})
+                   .text( function (d) { return '\uf21d'+"   "+ d.label; })
+                  .attr("font-family", "FontAwesome")
+                  .attr("font-size", "12px")
+                  .attr("opacity", "0.3")
+                   .attr("fill", function (d) { return d.color; });
+
+  $('.reqHelp').click(function(e) {
+    var user = $(e.target).parent().parent().children().first().html();
+    $.get('/users/requestHelp/'+user+'/'+localStorage.getItem('mayday_userId') , function(data) {});
+    return false;
+  });
+  
+</script>
+
+

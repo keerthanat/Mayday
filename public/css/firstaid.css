@@ -1,0 +1,24 @@
+.list-group-item h3{
+    color:#258cd1;
+}
+.list-group-item h4{
+    color:yellow;
+}
+
+div.pager span {
+    display: inline-block;
+    width: 1.8em;
+    height: 1.8em;
+    line-height: 1.8;
+    text-align: center;
+    cursor: pointer;
+    background: #ddd;
+    color: #999;
+    margin-right: 0.5em;
+    border-radius: 5px;
+}
+
+div.pager span.active {
+    background: #2c3e50;
+    color: #fff;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mayday</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<script src='/js/jquery-2.1.4.min.js'></script>
+    	<script type="text/javascript" src='/js/bootstrap.min.js'></script>
+    	<link rel="stylesheet" href="/css/font-awesome.min.css">
+		<link rel="icon" href="/images/logo.png" type="image/x-icon">
+	</head>
+	<body>
+		<div class = "container">
+			<img src="/images/logo.png" class = "center-block" width="200px" height="200px">
+		</div>
+		
+		<div id="loginWWrap" class="container">
+			<div class="col-md-6 col-md-offset-3 column">
+				<div class="row">
+					<h3 class="text-center">Welcome to Mayday! - Emergency service</h3>
+					<hr class="colorgraph">
+					<div class="alert alert-dismissible alert-danger col-md-8 col-md-offset-2" style="display:none;">
+			          <button type="button" class="close"> X </button>
+			          <div id="error"></div>
+			        </div>
+
+					<form role="form" id="loginForm">
+						<div class="col-md-8 col-md-offset-2 column">
+							<div class="form-group input-group">
+								<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+								<input id= "uname" type="text" name="loginUsername" class="form-control input-md" placeholder="Username" pattern=".{3,}"   required title="3 characters minimum" autofocus>
+							</div>
+							<div class="form-group input-group">
+								<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+								<input id = "pass1" type="password" name="loginPassword" class="form-control input-md" placeholder="Password" pattern=".{4,}"   required title="4 characters minimum" >
+							</div>
+							<div class="form-group input-group demo" id="signUpPwd">
+								<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+								<input id="pass2" type="password" name="confirmPassword" class="form-control input-md" placeholder="Confirm your password" pattern=".{4,}"  title="4 characters minimum" >
+							</div>
+							
+							<button type="submit" id="loginBtn" class="btn btn-primary btn-block" style="margin-top:5px">Login</button>
+							<button type="submit" id="signupBtn" class="btn btn-primary btn-block" style="margin-top:5px; display:none;">Sign Up</button>
+							
+							<a id="signup" class="col-md-8 col-md-offset-3 col-xs-8 col-xs-offset-3" href="#" style="margin-top:12px">Create a new account &nbsp <i class="fa fa-user-plus"></i></a>
+							<a id="login" class="col-md-5 col-md-offset-4 col-xs-5 col-xs-offset-4" href="#" style="margin-top: 12px; display: none;">Go back to login</a>
+							</br>
+							</br>
+						</div>
+					</form>
+				</div>
+			</div>			
+		</div>			
+		<link rel="stylesheet" href="/css/login.css">			
+		<script src='/js/jquery-2.1.4.min.js'></script>
+		<script type="text/javascript" src='/js/bootstrap.min.js'></script>
+		<script type="text/javascript" src="/js/JSlogin.js"></script>
+	</body>
+</html>

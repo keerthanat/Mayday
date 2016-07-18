@@ -1,0 +1,134 @@
+<!-- <!DOCTYPE html>
+<html>
+  <body> -->
+<div class="bs-example" data-example-id="thumbnails-with-custom-content">
+  <div class="row" id="userList">
+    <div class="col-sm-12 col-xs-12 column table-responsive">
+      <h3>All Users (<%= Object.keys(users).length %>)</h3>
+      <table class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>User Id</th>
+            <th>Password</th>
+            <th>Privilege</th>
+            <th>Account Active</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <%
+          var luser = user;
+          for(var user in users) {
+          
+          %>
+          <tr class="<%= statusClass[users[user]['status']] %>" >
+            <td class="col-sm-3 col-xs-2">
+              <div class="form-group ">
+                <form>
+                  <input type="text" class="form-control old_user" style="display:none;" data-item="user_id" pattern=".{3,}" required title="3 characters minimum" value="<%= users[user].user_id %>">
+                  <input type="text" class="form-control input-sm form-item" data-item="user_id" pattern=".{3,}"   required title="3 characters minimum" value="<%= users[user].user_id %>">
+                  <button type="submit"  style="display:none;"></button>
+                </form>
+              </div>
+            </td>
+            <td class="col-sm-3 col-xs-2">
+              <div class="form-group ">
+                <form>
+                  <input type="text" class="form-control form-item input-sm" data-item="password" pattern=".{4,}"   required title="4 characters minimum" value="<%= users[user].password %>">
+                  <button type="submit"  style="display:none;"></button>
+                </form>
+              </div>
+            </td>
+            <td class="col-sm-1 col-xs-5">
+              <div class="btn-group">
+                <a href="#" class="btn btn-sm btn-default form-item" data-item="privilege" data-value="<%=users[user].privilege %>"><%= privileges[users[user].privilege].privilege %></a>
+                <a href="#" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <%
+                  for(var j=1;j<privileges.length;j++) {
+                    var privilege = privileges[j];
+                    %>
+                    <li><a href="#" data-value="<%=j %>"><%= privileges[j].privilege %></a></li>
+                    <% } %>
+                  </ul>
+                </div>
+              </td>
+              <td class="col-sm-1 col-xs-2">
+                <div class="btn-group">
+                  <a href="#" class="btn btn-sm btn-default form-item" data-item="acc_active" data-value="<%=users[user].acc_active %>"><%= acc_active[users[user].acc_active] %></a>
+                  <a href="#" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <%
+                    var luser = user;
+                    for(var j=0;j<acc_active.length;j++) {
+                      var active = acc_active[j];
+                      %>
+                      <li><a href="#" data-value="<%=j %>"><%= active %></a></li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </td>
+                <td class=" col-sm-1 col-xs-2"><a href="#" class="btn btn-sm btn-primary save-btn">Save</a></td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+<link rel="stylesheet" href="/css/admin.css">   
+<script>
+          $(".dropdown-menu li a").click(function(ev) {
+            var visibleDiv = $(this).parents(".btn-group").find(".form-item");
+            visibleDiv.attr('data-value', $(this).attr('data-value'));
+            visibleDiv.html($(this).html());
+            return true;
+          });
+          $(".save-btn").click(function(ev) {
+              var tablerow = $(this).parents("tr");
+              var formItems = tablerow.find(".form-item");
+              var oldUser = tablerow.find(".old_user");
+              var formValid = true;
+              tablerow.find("form").each(function() {
+                if (!$(this)[0].checkValidity()) {
+                  formValid = false;
+                  $(this).find("button").click();
+                }
+              });
+              
+              
+              if (formValid) {
+                var postData = {};
+              formItems.each(function() {
+                postData[$(this).attr('data-item')] = $(this).val() ? $(this).val() : $(this).attr('data-value');
+              });
+                $.post("/admin/updateUser/"+localStorage.getItem('mayday_userId')+"/" + oldUser.val(), postData, function(data) {
+
+                    if (data.success) {
+                      $("#alertMsg").html("User:" + data.user.user_id + " record updated!");
+                      $("#success-alert").alert();
+                      $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+
+                          $("#success-alert").hide();
+                        });
+                        oldUser.val(data.user.user_id);
+                          
+
+                        } else {
+
+
+                        }
+                      }).fail(function(err) {
+                      alert(""+JSON.stringify(data.user));
+                    });
+                  }
+                  return true;
+                });
+        
+      $( "form" ).submit(function( event ) {
+  event.preventDefault();
+return false;
+});
+</script>
+
+

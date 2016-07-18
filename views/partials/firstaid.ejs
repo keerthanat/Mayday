@@ -1,0 +1,14 @@
+<!-- <!DOCTYPE html>
+<html>
+	<head> -->
+		<h1>First Aid</h1>
+		
+		<ul class="list-group">
+			<% for(var i=0;i<result.length;i++) {
+			if(result[i]){%>
+			<li id="<%=result[i].topic %>" class="list-group-item"><h3><%=result[i].topic %></h3><div class="firstaid"></div></li>
+			<% } %>
+			<% } %>
+		</ul>
+		<link rel="stylesheet" href="/css/firstaid.css">
+		<script type="text/javascript" src="/js/JSfirstaid.js"></script>

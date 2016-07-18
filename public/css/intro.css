@@ -1,0 +1,13 @@
+tbody tr{
+border: 1px solid;
+}
+.fa-2x{
+top: 2px;
+position: relative;
+}
+.unselectedStatus{
+opacity:0.2;
+}
+.unselectedStatus:hover{
+opacity:0.5;
+}

@@ -1,0 +1,46 @@
+<script type="text/javascript" src="../js/privatechatScript.js"></script>   
+<link href="../css/privatechat.css" rel="stylesheet">
+
+<div class="panel panel-primary ">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Private Chat</h3>
+    </div>
+
+    <div class="panel-body ">
+        <div id="chatroom" class="row row-offcanvas row-offcanvas-left">
+            <div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar" style="height: 450px;">
+                <ul class="nav">
+                    <li data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></li>
+                </ul>
+
+                <ul class="list-unstyled hidden-xs" id="sidebar-footer">
+                    <li style="color:green;">
+                        <h6><i class="fa fa-circle"></i>  Online &nbsp;<span class="online total"></span></h6>
+                    </li>
+                </ul>
+
+                <ul class="nav hidden-xs" id="lg-menu"></ul>
+                <ul class="nav visible-xs" id="xs-menu"></ul>
+            </div>
+
+            <div id="chatPage" class="column col-sm-10 col-xs-10 ">
+                <div class="panel panel-default top" id="messages" style="height: 400px;">
+                <div class="well" > <strong>Send a Private Message </strong><i class="fa fa-comment"></i></div>
+                    <h5 style="padding-left: 10px;"> Click a <i class="fa fa-user"> name on the left to start chatting.... </i></h5>  
+                    <h5 style="padding-left: 10px;">All the messages sent will be private and only visible to the selected user. </h5>  
+                    <h5 style="padding-left: 10px;"> In case of unread chat messages, <i class="fa fa-bell"> you will be notified. </i> </h5>  
+                </div>
+                
+                <form id="chatBox" action="" class="bs-component">
+                    <div class="input-group">
+                        <input id="m" autofocus autocomplete="off" placeholder="Type here.." class="form-control" />
+                        
+                        <span class="input-group-btn">
+                            <button class="btn-primary  btn chatButton" id="sendChat">Send</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

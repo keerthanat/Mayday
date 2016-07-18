@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/header %>
+  </head>
+  <body>
+    <div class = "container col-md-10 col-md-offset-1 column">
+      <%- include('partials/navbar', {active: "0"}) %>
+      <div class="alert alert-dismissible alert-danger error-message" style="display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <div id="error"></div>
+      </div>
+      <div class="alert alert-success alert-message-success" id="success-alert" style="display:none;">
+        <button type="button" class="close" onclick="$('.alert-message-success').hide()">x</button>
+        <div id="alertMsg"></div>
+      </div>
+      <div class="alert alert-warning alert-message-warning" id="warning-alert" style="display:none;">
+        <button type="button" class="close" id="reqButtonClose" >x</button>
+        <div id="reqMsg"> Help request from user:</div>
+        <span id="reqUser"></span>
+        <button type="button" class= "btn-xs btn btn-success" id="reqButtonAccept" style="float:right;margin-right: 50px;" >Accept</button>
+      </div>
+      <div id="layoutChange" class="well component">
+        <% include partials/intro %> 
+      </div>
+
+      <script type = "text/javascript">
+        $(".alert-message-warning button").click(function(e) {
+          if(e.target.id == 'reqButtonClose'){
+            $.get('/users/reqResponse/'+$("#reqUser").html()+'/'+localStorage.getItem('mayday_userId')+'/0' , function(data) {});
+          }else if(e.target.id == 'reqButtonAccept'){
+           $.get('/users/reqResponse/'+$("#reqUser").html()+'/'+localStorage.getItem('mayday_userId')+'/1' , function(data) {});
+          }
+          $("#warning-alert").hide();
+        });
+      </script>
+    </div>
+  </body>
+</html>

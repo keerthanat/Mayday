@@ -1,0 +1,570 @@
+swagger: '2.0'
+info:
+  title: SSNoC MayDay API
+  description: 'SSNoC MayDay API_UserCase:Join Community Chat Publicly'
+  version: 1.0.2
+host: '172.29.93.226:8080'
+schemes:
+  - http post
+basePath: /
+produces:
+  - application/json
+  - application/html
+paths:
+  '/admin/:active':
+    get:
+      description: "fetch active users"
+      tags:
+        - admin
+      responses:
+        '200':
+          description: 'Fetched User List!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Activity'
+        '500':
+          description: 'No user found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/admin/:active/:uid':
+    put:
+      description: "update user info"
+      tags:
+        - admin
+      responses:
+        '201':
+          description: 'User updated successfully!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Activity'
+        '500':
+          description: 'Error in updating user!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/admin/updateUser/:admin/:uid':
+    post:
+      description: "change user info by administrator"
+      tags:
+        - admin
+      responses:
+        '201':
+          description: 'User updated successfully!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Activity'
+        '500':
+          description: 'You donot have permissions to edit!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/performance/startTestEnv':
+    get:
+      description: "start performance test"
+      tags:
+        - Measure Performance
+      responses:
+        '200':
+          description: 'Test env set!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Activity'
+        '500':
+          description: 'Test env failed!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/performance/stopTestEnv':
+    get:
+      description: "stop performance test"
+      tags:
+        - Measure Performance
+      responses:
+        '200':
+          description: 'Test env unset!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Activity'
+        '500':
+          description: 'test unset failed'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/firstaid/topic/:value':
+    get:
+      description: "fetch first aid messages"
+      tags:
+        - First Aid
+      responses:
+        '200':
+          description: 'Messages retrieved!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Activity'
+        '404':
+          description: 'No messages!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/firstaid/savefirstaid':
+    post:
+      description: "save first aid messages"
+      tags:
+        - First Aid
+      responses:
+        '201':
+          description: 'Messages saved'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Activity'
+        '404':
+          description: 'saving error!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/search/publicChat/:searchTxt':
+    get:
+      description: >
+        get public chat messages based on search text provided
+      tags:
+        - Search
+      responses:
+        '200':
+          description: 'Public message results retrieved!'
+          schema:
+            name: Public Chat
+            type: array
+        '500':
+          description: 'No Public msgs!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/search/privateChat/:searchTxt':
+    get:
+      description: >
+        get private chat messages based on search text provided
+      tags:
+        - Search
+      responses:
+        '200':
+          description: 'Prviate message results retrieved!'
+          schema:
+            name: Public Chat
+            type: array
+        '500':
+          description: 'No private msgs!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+            
+  '/search/cName/:searchTxt':
+    get:
+      description: >
+        get both online & Offline Citizen Names based on search text provided,
+        http method is GET
+      tags:
+        - Search
+      responses:
+        '200':
+          description: 'Username found!'
+          schema:
+            name: OfflineUsers
+            type: array
+        '500':
+          description: 'No citizens found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+            
+  '/search/cStatus/:searchTxt':
+    get:
+      description: >
+        get both online & Offline Citizen with status input on search text
+        provided, http method is GET
+      tags:
+        - Search
+      responses:
+        '200':
+          description: 'Username with this status found!'
+          schema:
+            name: OfflineUsers
+            type: array
+        '500':
+          description: 'No status found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/search/announcements/:searchTxt':
+    get:
+      description: |
+        get announcements based on search text provided, http method is GET
+      tags:
+        - Search
+      responses:
+        '200':
+          description: 'Announcements retrieved!'
+          schema:
+            name: Announcement
+            type: array
+        '500':
+          description: 'No announcements found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/search/firstaid/:searchTxt':
+    get:
+      description: |
+        get firstaid info based on search text provided
+      tags:
+        - Search
+      responses:
+        '200':
+          description: 'get firaid info!'
+          schema:
+            name: Firstaid
+            type: array
+        '500':
+          description: 'No firstaid info found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/users/onlineUsers':
+    get:
+      description: |
+        fetch online user list, http method is GET
+      tags:
+        - Users
+      responses:
+        '200':
+          description: 'online user list found'
+          schema:
+            name: users
+            type: array
+        '500':
+          description: 'online user list not found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/users/user/:user':
+    get:
+      description: |
+        Fetch a Single User, http method is GET
+      tags:
+        - Users
+      responses:
+        '200':
+          description: 'Fetched a Single User'
+          schema:
+            name: user
+            type: array
+        '500':
+          description: 'fail to fetch a Single User!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/users/updateUser/:uid':
+    put:
+      description: update user
+      tags:
+        - Users
+      responses:
+        '200':
+          description: 'User updated successfully'
+          schema:
+            type: array
+        '404':
+          description: 'User update failed!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/publicmessage/wall':
+    get:
+      description: get historic chat messages
+      tags:
+        - Public Chat
+      responses:
+        '200':
+          description: 'Messages found'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '500':
+          description: 'Error no messages found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/publicmessage/userConnected/:user':
+    get:
+      description: new user enters public chatroom
+      tags:
+        - Public Chat
+      responses:
+        '200':
+          description: 'get online users'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '500':
+          description: 'online user not found!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/publicmessage/chatScrollUp/:msgid':
+    get:
+      description: Scroll up for more messages
+      tags:
+        - Public Chat
+      responses:
+        '200':
+          description: 'get more historic messages'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '500':
+          description: 'historic messages not found'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/publicmessage/message':
+    post:
+      description: post a new message
+      tags:
+        - Public Chat
+      responses:
+        '201':
+          description: 'Message posted!'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '404':
+          description: 'User does not exist!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  '/privatemessage/messages':
+    post:
+      description: post a new private message
+      tags:
+        - Private Chat
+      responses:
+        '201':
+          description: 'Messages sent!'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '404':
+          description: 'User does not exist!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+            
+  "/privatemessages/:sender/:receiver'":
+    get:
+      description: get past private messages
+      tags:
+        - Private Chat
+      responses:
+        '200':
+          description: 'Messages retrieved!'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '500':
+          description: 'No messages!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+            
+  "/privatemessages/messages/:msg_id'":
+    get:
+      description: get message by id
+      tags:
+        - Private Chat
+      responses:
+        '200':
+          description: 'Messages retrieved!'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '500':
+          description: 'No messages!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+            
+  "announcement/publishAnnon":
+    post:
+      description: Store announcement
+      tags:
+        - Announcements
+      responses:
+        '201':
+          description: 'Announcement stored!'
+          schema:
+            type: array
+            item:
+              $ref: '#/definitions/Activity'
+        '404':
+          description: 'Announcement could not be stored!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  "/announcement/getHistory":
+    get:
+      description: get historic announcements
+      tags:
+        - Announcements
+      responses:
+        '200':
+          description: 'Get historic announcements'
+          schema:
+            type: array
+        '500':
+          description: 'Unable to fetch historic announcements!'
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  "/signupUser":
+    post:
+      summary: new user to sign up
+      description: |
+        register new user or log in, reture different value based on input
+        http method is post.
+      parameters:
+        - name: loginUsername
+          in: query
+          description: username that the user typein in login form.
+          required: true
+          type: string
+          format: character
+        - name: loginPassword
+          in: query
+          description: password that the user typein in login form.
+          required: true
+          type: string
+          format: character
+      tags:
+        - Join Community
+      responses:
+        '201':
+          description: user list updated successfully 200 OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Token'
+        '404':
+          description: username already exists
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
+  "/loginUser":
+    post:
+      description: |
+        user login, http method is POST.
+      parameters:
+        - name: loginUsername
+          in: query
+          description: 'username for login, minimum 3 character'
+          required: true
+          type: string
+          format: charcater
+        - name: loginPassword
+          in: query
+          description: 'password for login, minimum 3 character'
+          required: true
+          type: string
+          format: character
+      tags:
+        - Join Community
+      responses:
+        '200':
+          description: user sign up successfuly
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Activity'
+        '404':
+          description: username already exists
+          schema:
+            items:
+              $ref: '#/definitions/Error'
+
+  '/users/logout/:user':
+    get:
+      description: User logged out
+      tags:
+        - Join Community
+      responses:
+        '200':
+          description: Redirect page to login
+          schema:
+            type: string
+        '500':
+          description: Logout unsucessful
+          schema:
+            type: array
+          items:
+            $ref: '#/definitions/Error'
+
